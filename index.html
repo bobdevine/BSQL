@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>BSQL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="icon" type="image/png" href="./logo.png">
+    
+    <script src="bsql.js"></script>
+    <script src="samples.json"></script>
+</head>
+
+<html>
+  <body>
+    <h1><img src="logo.png" width="40" /> BSQL to SQL transpiler</h1>
+    <script>
+      function ShowSample(num) {
+	  //alert(num);
+	  var boxInput = document.getElementById("boxInput");
+	  boxInput.value = SAMPLES[num-1].code;
+      }
+
+      for (let i=1; i<=SAMPLES.length; i++) {
+	  document.write('<button type="button" onclick="ShowSample(' + (i) + ')">sample' + (i) + '</button>');
+      }
+    </script>
+
+    <h3>Input</h3>
+    <textarea id="boxInput" style="resize:none" rows="9" cols="90" placeholder="Enter BSQL"></textarea>
+    <br/>
+    <button type="button" onclick="CodeTranspile()">Transpile</button>
+    <br/>
+    
+    <h3>SQL</h3>
+    <textarea id="boxResult" readonly style="resize:none" rows="9" cols="90"></textarea>
+  </body>
+
+  <script>
+    function CodeTranspile() {
+	//var ast;
+	    var boxInput = document.getElementById("boxInput");
+	    var outSQL = BSQL_Transpile(boxInput.value);
+	    var boxResult = document.getElementById("boxResult");
+	    boxResult.value = outSQL;
+	try {
+	} catch (e) {
+	    alert(e);
+	    //alert(buildErrorMessage(e));
+	}
+    }
+
+    function buildErrorMessage(e) {
+	return (e.location !== undefined)
+	    ? "Line " + e.location.start.line + ", column " + e.location.start.column + ": " + e.message
+	    : e.message;
+    }
+</script>
+
+</html>
